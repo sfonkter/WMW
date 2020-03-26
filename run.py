@@ -27,7 +27,7 @@ def incoming_sms():
     usr = userlist.loadUser(num)
 
     def readFeed():
-        with open('Feedback.json', 'r', encoding = 'utf-8') as f:
+        with open('logs/Feedback.json', 'r', encoding = 'utf-8') as f:
             data = json.load(f)
         return data
     
@@ -82,9 +82,9 @@ def incoming_sms():
 
         data = readFeed()
         data.append(msg)
-        with open('Feedback.json','w', encoding='utf-8') as f:
+        with open('logs/Feedback.json','w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
-    with open('conversationLog.json', 'a', encoding = 'utf-8') as f:
+    with open('logs/conversationLog.json', 'a', encoding = 'utf-8') as f:
         conv = 'Message from %s %s %s at ' % (usr.first, usr.last, usr.phone)+nowt(pytz.timezone('America/New_York')).strftime("%b %d at %I:%M%p:")+body
         json.dump(conv, f, ensure_ascii=False, indent=4)
         f.write('\n')

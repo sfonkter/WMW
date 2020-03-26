@@ -24,7 +24,7 @@ def sched():
         except Exception as e:
             err = nowt(pytz.timezone('America/New_York')).strftime("%b %d at %I:%M%p: User: {} {} {}: ").format(usr.phone, usr.first, usr.last) + str(e)
             print (err)
-            with open('errors.json', 'a', encoding = 'utf-8') as f:
+            with open('logs/errors.json', 'a', encoding = 'utf-8') as f:
                 json.dump(err, f, ensure_ascii = False, indent=4)
                 f.write('\n')
             
