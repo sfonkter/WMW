@@ -26,15 +26,12 @@ def incoming_sms():
     db = MySQL.Database('users')
     db.execute("SELECT * FROM information")
     usr = db.usr(num, 'byPhone')
-
-    def readFeed():
-        with open('logs/Feedback.json', 'r', encoding = 'utf-8') as f:
-            data = json.load(f)
-        return data
     
+    #Responds with a list of actions users can take
     if command == "actions" or command == "action":
         resp.message("List of commands:\n\nTime: To set the time of day you would like your weather update respond to the number with \"time\" followed by the time you'd like the message. Include am or pm.\n\nLocation: To change your location respond to the number with \"location\" followed by your new location.\n\nWeather: To get a current weather update reply to the number with \"weather\".\n\nYou can respond to the number with feedback or to get in touch with Delaney Kassab at any time.\n\nTo stop receiving messages at any time just reply STOP.")
     
+    #Changes user's location
     elif command == "location":
         location = body.lower().replace('location', '')
         usr.location = location
@@ -48,10 +45,12 @@ def incoming_sms():
             db.commit()
         except:
             resp.message("We couldn't find that location. Please type \"location\" followed by a valid location.")
-
+    
+    #Sends current conditions to user
     elif command == "weather":
         deliver.sendWeather(usr.customer_id)
-        
+    
+    #Changes the time the user receives the message
     elif command == "time":
 
         time = str(body.lower().replace('time', '').replace(' ', ''))
@@ -79,6 +78,8 @@ def incoming_sms():
             resp.message("Make sure you include am or pm. Reply \"time \" followed by the time you would like to set.")
         db.commit()
         
+    # if none of the above are true (there is no command), assumes the message is feedback and saves it to logs/Feedback.json.
+    #Also sends a message to me with the feedback, phone number, and first and last name.
     else:
         msg = "New feedback from %s %s %s: %s" % (usr.first_name, usr.last_name, usr.phone, body)
         deliver.send('8049288208', msg)
@@ -88,11 +89,13 @@ def incoming_sms():
         with open('logs/Feedback.json','a', encoding='utf-8') as f:
             json.dump(msg, f, ensure_ascii=False, indent=4)
             f.write("\n")
-            
+    
+    #logs everything sent to the number in logs/conversationLog.json
     with open('logs/conversationLog.json', 'a', encoding = 'utf-8') as f:
         conv = 'Message from %s %s %s at ' % (usr.first_name, usr.last_name, usr.phone)+nowt(pytz.timezone('America/New_York')).strftime("%b %d at %I:%M%p:")+body
         json.dump(conv, f, ensure_ascii=False, indent=4)
         f.write('\n')
+        
     return str(resp)
 
 if __name__ == "__main__":
