@@ -63,7 +63,7 @@ class Database:
         self.timezone = row[7]
         return self
         
-def listed():
+def listed(x):
     with open ('numbers.json', 'r') as f:
         nums = json.load(f)
     if x not in nums:
