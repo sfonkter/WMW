@@ -1,4 +1,5 @@
 import mysql.connector
+import json
 
 class Database:
     def __init__(self, name):
