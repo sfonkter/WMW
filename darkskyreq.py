@@ -11,6 +11,7 @@ class Weather:
         google_key = os.environ['GOOGLE_API_KEY']
         print (google_key)
         response = requests.get("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s"%(self.loc.replace(" ","+")), google_key)
+        print(response)
         try:
             coords = response.json()['results'][0]
             return coords
