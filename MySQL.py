@@ -41,11 +41,11 @@ class Database:
         return self.fetchall()
     
     def byID(self, customer_id):
-        sql = "SELECT * FROM information WHERE customer_id = {}"
+        sql = "SELECT * FROM information WHERE customer_id = '{}'"
         return self.query(sql.format(customer_id))
     
     def byPhone(self, phone):
-        sql = "SELECT * FROM information WHERE phone = {}"
+        sql = "SELECT * FROM information WHERE phone = '{}'"
         return self.query(sql.format(phone))
     
     def usr(self, key, by = None):
@@ -71,4 +71,6 @@ def listed():
             json.dump(nums, f, ensure_ascii=False, indent = 4)
         return 1
         
-    
+num = '1'
+db = Database('users')
+usr = db.usr(num)
