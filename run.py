@@ -45,11 +45,12 @@ def incoming_sms():
             address = w.getAddress()
             resp.message("Your new location has been set: "+address)
             db.execute('UPDATE information SET location = %s WHERE phone = %s' % (location, phone))
+            db.commit()
         except:
             resp.message("We couldn't find that location. Please type \"location\" followed by a valid location.")
 
     elif command == "weather":
-        deliver.sendWeather(usr.phone)
+        deliver.sendWeather(usr.customer_id)
         
     elif command == "time":
 
@@ -76,7 +77,8 @@ def incoming_sms():
                     resp.message("Oops, you may have misformatted your time. Please double check the time you sent and reply \"time \" followed by the time you would like to set.")
         else:
             resp.message("Make sure you include am or pm. Reply \"time \" followed by the time you would like to set.")
-
+        db.commit()
+        
     else:
         msg = "New feedback from %s %s %s: %s" % (usr.first_name, usr.last_name, usr.phone, body)
         deliver.send('8049288208', msg)

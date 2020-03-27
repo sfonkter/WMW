@@ -1,18 +1,20 @@
-import userlist
+import MySQL.py
 import msg
 from twilio.rest import Client
 import os
 
-def sendWeather(num):
+def sendWeather(customer_id):
     
-    usr = userlist.loadUser(num)
+    db = MySQL.Database('users')
+    
+    usr = db.usr(customer_id)
     location = usr.location
     number = usr.phone
-    fname = usr.first
+    fname = usr.first_name
     
     message = msg.msg(location, fname)
     
-    if userlist.listed(number) == 1:
+    if MySQL.listed(number) == 1:
         welcome = "Thank you for signing up for daily weather updates!\nReply \"actions\" for a list of commands, including how to change your location and set what time (coming soon) you'd like to receive messages each day. Default is 6:30am.\nThis is a class project and feedback is welcome at any time. Just reply to the number with whatever you have to say!\nIf you would like to stop receiving messages just reply stop at any time."
         send(number, welcome)
         print (welcome)

@@ -20,7 +20,7 @@ def sched():
             localt = str(nowt(tz).strftime("%H:%M"))
             
             if t == localt:
-                deliver.sendWeather(usr.phone)
+                deliver.sendWeather(usr.customer_id)
             
         except Exception as e:
             err = nowt(pytz.timezone('America/New_York')).strftime("%b %d at %I:%M%p: User: {} {} {}: ").format(usr.phone, usr.first_name, usr.last_name) + str(e)
