@@ -43,8 +43,10 @@ def incoming_sms():
         w = darkskyreq.Weather(usr.location)
         try:
             address = w.getAddress()
+            tz = w.getWeather().timezone
             resp.message("Your new location has been set: "+address)
             db.execute("UPDATE information SET location = '%s' WHERE customer_id = %s" % (location, usr.customer_id))
+            db.execute("UPDATE information SET timezone = '%s' WHERE customer_id = %s" % (tz, usr.customer_id))
             db.commit()
         except:
             resp.message("We couldn't find that location. Please type \"location\" followed by a valid location.")
