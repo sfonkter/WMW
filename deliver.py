@@ -1,4 +1,4 @@
-import MySQL.py
+import MySQL
 import msg
 from twilio.rest import Client
 import os
