@@ -70,7 +70,3 @@ def listed():
         with open ('numbers.json', 'a') as f:
             json.dump(nums, f, ensure_ascii=False, indent = 4)
         return 1
-        
-num = '1'
-db = Database('users')
-usr = db.usr(num)
