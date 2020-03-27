@@ -1,13 +1,15 @@
 from darksky.api import DarkSky, DarkSkyAsync
 from darksky.types import languages, units, weather
 import requests
+import os
 
 class Weather:
     def __init__(self, loc):
         self.loc = str(loc)
     
     def getCoords(self):
-        response = requests.get("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=AIzaSyBWJVULh7VtUPe6LuG-4wvA4UlBMFT8mbo"%(self.loc.replace(" ","+")))
+        google_key = os.environ['GOOGLE_API_KEY']
+        response = requests.get("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s"%(self.loc.replace(" ","+")), google_key)
         try:
             coords = response.json()['results'][0]
             return coords
@@ -16,7 +18,7 @@ class Weather:
             return None
         
     def getWeather(self):
-        API_KEY = '08649357df9e3f366bc54ca8911a48b8'
+        API_KEY = os.environ['DARKSKY_API_KEY']
         darksky = DarkSky(API_KEY)
         coords = self.getCoords()
         
