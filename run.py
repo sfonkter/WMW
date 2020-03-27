@@ -62,7 +62,7 @@ def incoming_sms():
             if ':' in time:
                 try:
                     t = datetime.strptime(time, "%I:%M%p")
-                    db.execute('UPDATE information SET usr_time = %s WHERE phone = %s' % (t.strftime("%H:%M"), phone))
+                    db.execute('UPDATE information SET usr_time = %s WHERE phone = %s' % (t.strftime("%H:%M"), usr.phone))
                     resp.message(t.strftime("New time set for %I:%M%p"))
                 except Exception as e:
                     print(e)
@@ -70,7 +70,7 @@ def incoming_sms():
             else:
                 try:
                     t = datetime.strptime(time, "%I%p")
-                    db.execute('UPDATE information SET usr_time = %s WHERE phone = %s' % (t.strftime("%H:%M"), phone))
+                    db.execute('UPDATE information SET usr_time = %s WHERE phone = %s' % (t.strftime("%H:%M"), usr.phone))
                     resp.message(t.strftime("New time set for %I:%M%p"))
                 except Exception as e:
                     print(e)
