@@ -2,7 +2,7 @@ from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
 import json
 import deliver
-import userlist
+import MySQL
 import darkskyreq
 import phonenumbers
 from datetime import datetime
@@ -24,7 +24,10 @@ def incoming_sms():
     num = phonenumbers.parse(num, None)
     num = phonenumbers.format_number(num, phonenumbers.PhoneNumberFormat.NATIONAL)
     
-    usr = userlist.loadUser(num)
+    db = MySQL.Database('users')
+    db.execute("SELECT * FROM information")
+    
+    usr = db.usr(num, 'byPhone')
 
     def readFeed():
         with open('logs/Feedback.json', 'r', encoding = 'utf-8') as f:
@@ -41,7 +44,7 @@ def incoming_sms():
         try:
             address = w.getAddress()
             resp.message("Your new location has been set: "+address)
-            usr.newLoc(address)
+            db.execute('UPDATE information SET location = %s WHERE phone = %s' % (location, phone))
         except:
             resp.message("We couldn't find that location. Please type \"location\" followed by a valid location.")
 
@@ -58,7 +61,7 @@ def incoming_sms():
             if ':' in time:
                 try:
                     t = datetime.strptime(time, "%I:%M%p")
-                    usr.newTime(t.strftime("%H:%M"))
+                    db.execute('UPDATE information SET usr_time = %s WHERE phone = %s' % (t.strftime("%H:%M"), phone))
                     resp.message(t.strftime("New time set for %I:%M%p"))
                 except Exception as e:
                     print(e)
@@ -66,7 +69,7 @@ def incoming_sms():
             else:
                 try:
                     t = datetime.strptime(time, "%I%p")
-                    usr.newTime(t.strftime("%H:%M"))
+                    db.execute('UPDATE information SET usr_time = %s WHERE phone = %s' % (t.strftime("%H:%M"), phone))
                     resp.message(t.strftime("New time set for %I:%M%p"))
                 except Exception as e:
                     print(e)
@@ -75,7 +78,7 @@ def incoming_sms():
             resp.message("Make sure you include am or pm. Reply \"time \" followed by the time you would like to set.")
 
     else:
-        msg = "New feedback from %s %s %s: %s" % (usr.first, usr.last, usr.phone, body)
+        msg = "New feedback from %s %s %s: %s" % (usr.first_name, usr.last_name, usr.phone, body)
         deliver.send('8049288208', msg)
 
         resp.message("Your feedback has been recorded. Thank you!")
