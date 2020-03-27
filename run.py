@@ -15,18 +15,16 @@ def incoming_sms():
     nowt = datetime.now
 
     body = str(request.values.get('Body', None))
-    
     num = request.values.get('From', None)
-    
-    command = body.lower().split()[0].replace(':', '')
-    resp = MessagingResponse()
-    
     num = phonenumbers.parse(num, None)
     num = phonenumbers.format_number(num, phonenumbers.PhoneNumberFormat.NATIONAL)
     
+    command = body.lower().split()[0].replace(':', '')
+    
+    resp = MessagingResponse()
+    
     db = MySQL.Database('users')
     db.execute("SELECT * FROM information")
-    
     usr = db.usr(num, 'byPhone')
 
     def readFeed():
@@ -87,10 +85,10 @@ def incoming_sms():
 
         resp.message("Your feedback has been recorded. Thank you!")
 
-        data = readFeed()
-        data.append(msg)
-        with open('logs/Feedback.json','w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=4)
+        with open('logs/Feedback.json','a', encoding='utf-8') as f:
+            json.dump(msg, f, ensure_ascii=False, indent=4)
+            f.write("\n")
+            
     with open('logs/conversationLog.json', 'a', encoding = 'utf-8') as f:
         conv = 'Message from %s %s %s at ' % (usr.first_name, usr.last_name, usr.phone)+nowt(pytz.timezone('America/New_York')).strftime("%b %d at %I:%M%p:")+body
         json.dump(conv, f, ensure_ascii=False, indent=4)
