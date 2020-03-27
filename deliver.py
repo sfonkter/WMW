@@ -23,7 +23,7 @@ def sendWeather(customer_id):
     print (number)
     print (message)
     
-def send(num, m):
+def send(num, m, media = None):
     
     account_sid = os.environ['TWILIO_ACCOUNT_SID']
     auth_token =os.environ['TWILIO_AUTH_TOKEN']
@@ -33,6 +33,7 @@ def send(num, m):
                     .create(
                         body=m,
                         from_='+18647546178',
+                        media_url=[media],
                         to="+1"+num
                         #to='+18049288208'
                     )
