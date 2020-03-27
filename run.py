@@ -44,7 +44,7 @@ def incoming_sms():
         try:
             address = w.getAddress()
             resp.message("Your new location has been set: "+address)
-            db.execute('UPDATE information SET location = %s WHERE phone = %s' % (location, phone))
+            db.execute('UPDATE information SET location = %s WHERE phone = %s' % (location, usr.phone))
             db.commit()
         except:
             resp.message("We couldn't find that location. Please type \"location\" followed by a valid location.")
