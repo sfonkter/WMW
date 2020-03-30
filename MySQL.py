@@ -1,9 +1,11 @@
 import mysql.connector
 import json
+import os
 
 class Database:
     def __init__(self, name):
-        self._conn = mysql.connector.connect(user = 'doadmin', password = 'poamfy2bog7z5iq2',
+        SQL_pass = os.environ['MYSQL_PASS']
+        self._conn = mysql.connector.connect(user = 'doadmin', password = SQL_pass,
                                              host = 'wmwuserinfo-do-user-7206460-0.a.db.ondigitalocean.com',
                                              port = 25060,
                                              db = name
