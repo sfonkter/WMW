@@ -3,7 +3,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 import os
 
 # The session object makes use of a secret key.
-SECRET_KEY = 'a secret key'
+SECRET_KEY = os.environ['SURVEY_SECRET_KEY']
 app = Flask(__name__)
 app.config.from_object(__name__)
 
