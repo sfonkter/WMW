@@ -39,7 +39,3 @@ def send(num, m, media = None):
                     )
 
     print(message.sid)
-    
-def sendAll():
-    for x in range (0, len(userlist.read())):
-        sendWeather(userlist.read()[x]['phone'])

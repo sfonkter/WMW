@@ -9,8 +9,9 @@ from datetime import datetime
 import pytz
 import os
 
-
+SECRET_KEY = os.environ['SURVEY_SECRET_KEY']
 app = Flask(__name__)
+app.config.from_object(__name__)
 
 @app.route("/sms", methods=['GET', 'POST'])
 def incoming_sms():
@@ -57,17 +58,14 @@ def incoming_sms():
         with open('questions.json', 'r') as f:
             survey = json.load(f)
         if 'question_id' in session:
-            response.redirect(url_for('answer',
+            resp.redirect(url_for('answer',
                                       question_id=session['question_id']))
         else:
-            welcome_user(survey, response.message)
-            redirect_to_first_question(response, survey)
-    
-    return str(response)
+            welcome_user(resp.message)
+            redirect_to_first_question(resp, survey)
     
     #Changes the time the user receives the message
     elif command == "time":
-
         time = str(body.lower().replace('time', '').replace(' ', ''))
 
         if 'a' in time or 'p' in time:
@@ -117,7 +115,7 @@ def incoming_sms():
 def question(question_id):
     print('question')
     with open('questions.json', 'r') as f:
-            survey = json.load(f)
+        survey = json.load(f)
     question = survey[int(question_id)]
     session['question_id'] = question_id
     return sms_twiml(question)
@@ -126,8 +124,7 @@ def question(question_id):
 def answer(question_id):
     question_id = int(question_id)
     with open('questions.json', 'r') as f:
-            survey = json.load(f)
-    question = survey[question_id]
+        survey = json.load(f)
     try:
         next_question = survey[question_id+1]
         return redirect_twiml(next_question)
@@ -135,36 +132,36 @@ def answer(question_id):
         return goodbye_twiml()
     
 def goodbye_twiml():
-    response = MessagingResponse()
-    response.message("Thank you for signing up for Weather My Wardrobe! You'll get weather updates at USR_TIME every day!")
+    resp = MessagingResponse()
+    resp.message("Thank you for signing up for Weather My Wardrobe! You'll get weather updates at USR_TIME every day!")
     if 'question_id' in session:
         del session['question_id']
-    return str(response)
+    return str(resp)
     
 def redirect_twiml(question):
     with open('questions.json', 'r') as f:
         survey = json.load(f)
-    response = MessagingResponse()
-    response.redirect(url=url_for('question', question_id=survey.index(question)),
+    resp = MessagingResponse()
+    resp.redirect(url=url_for('question', question_id=survey.index(question)),
                       method = 'GET')
-    return str(response)
+    return str(resp)
 
 def sms_twiml(question):
-    response = MessagingResponse()
-    response.message(question)
-    return str(response)
+    resp = MessagingResponse()
+    resp.message(question)
+    return str(resp)
 
-def redirect_to_first_question(response, survey):
+def redirect_to_first_question(resp, survey):
     first_question = survey[0]
     print(first_question)
     first_question_url = url_for('question', question_id = survey.index(first_question))
-    response.redirect(url=first_question_url, method='GET')
+    resp.redirect(url=first_question_url, method='GET')
     
-def welcome_user(survey, send_function):
+def welcome_user(send_function):
     welcome_text = 'Thank you for signing up for weather updates with Weather My Wardrobe! To finish signing up just answer the following questions.'
     send_function(welcome_text)
 
 if __name__ == "__main__":
-    from waitress import serve
-    serve(app, host="0.0.0.0", port = 5000)
-    #app.run(debug=True)
+    #from waitress import serve
+    #serve(app, host="0.0.0.0", port = 5000)
+    app.run(debug=True)
