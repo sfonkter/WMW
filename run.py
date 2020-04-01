@@ -108,7 +108,7 @@ def incoming_sms():
     
     #logs everything sent to the number in logs/conversationLog.json
     with open('logs/conversationLog.json', 'a', encoding = 'utf-8') as f:
-        conv = 'Message from %s %s %s at ' % (usr.first_name, usr.last_name, usr.phone)+nowt(pytz.timezone('America/New_York')).strftime("%b %d at %I:%M%p:")+body
+        conv = 'Message from %s at ' % (num)+nowt(pytz.timezone('America/New_York')).strftime("%b %d at %I:%M%p: ")+body
         json.dump(conv, f, ensure_ascii=False, indent=4)
         f.write('\n')
         
