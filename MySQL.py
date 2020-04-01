@@ -82,8 +82,8 @@ class Database:
                 try:
                     address = w.getAddress()
                     tz = w.getWeather().timezone
-                    db.execute("UPDATE information SET location = '%s' WHERE customer_id = %s" % (info, customer_id))
-                    db.execute("UPDATE information SET timezone = '%s' WHERE customer_id = %s" % (tz, customer_id))
+                    self.execute("UPDATE information SET location = '%s' WHERE customer_id = %s" % (info, customer_id))
+                    self.execute("UPDATE information SET timezone = '%s' WHERE customer_id = %s" % (tz, customer_id))
                 except Exception as e:
                     print (e)
                     pass
