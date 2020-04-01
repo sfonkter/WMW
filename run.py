@@ -61,6 +61,7 @@ def incoming_sms():
             resp.redirect(url_for('answer',
                                       question_id=session['question_id']))
         else:
+            db.addUsr(num)
             welcome_user(resp.message)
             redirect_to_first_question(resp, survey)
     
@@ -113,7 +114,6 @@ def incoming_sms():
 
 @app.route('/question/<question_id>')
 def question(question_id):
-    print('question')
     with open('questions.json', 'r') as f:
         survey = json.load(f)
     question = survey[int(question_id)]
@@ -122,18 +122,35 @@ def question(question_id):
 
 @app.route('/answer/<question_id>', methods=['POST'])
 def answer(question_id):
+    body = str(request.values.get('Body', None))
+    
+    num = request.values.get('From', None)
+    num = phonenumbers.parse(num, None)
+    num = phonenumbers.format_number(num, phonenumbers.PhoneNumberFormat.NATIONAL)
+    
+    db = MySQL.Database('users')
+    
     question_id = int(question_id)
+    
     with open('questions.json', 'r') as f:
         survey = json.load(f)
+    db.addUsr(num, question_id, body)
     try:
         next_question = survey[question_id+1]
         return redirect_twiml(next_question)
-    except:
+    except Exception as e:
+        print (e)
         return goodbye_twiml()
     
 def goodbye_twiml():
     resp = MessagingResponse()
-    resp.message("Thank you for signing up for Weather My Wardrobe! You'll get weather updates at USR_TIME every day!")
+    num = request.values.get('From', None)
+    num = phonenumbers.parse(num, None)
+    num = phonenumbers.format_number(num, phonenumbers.PhoneNumberFormat.NATIONAL)
+    
+    db = MySQL.Database('users')
+    usr = db.usr(num, 'byPhone')
+    resp.message("Thank you for signing up for Weather My Wardrobe! You'll get weather updates at %s every day!" % (usr.usr_time))
     if 'question_id' in session:
         del session['question_id']
     return str(resp)
@@ -153,7 +170,6 @@ def sms_twiml(question):
 
 def redirect_to_first_question(resp, survey):
     first_question = survey[0]
-    print(first_question)
     first_question_url = url_for('question', question_id = survey.index(first_question))
     resp.redirect(url=first_question_url, method='GET')
     

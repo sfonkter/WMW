@@ -65,7 +65,32 @@ class Database:
         self.gender = row[6]
         self.timezone = row[7]
         return self
+    
+    def addUsr(self, pn = '', n = None, info = ''):
+        column = {
+            '0' : 'first_name',
+            '1' : 'last_name',
+            '2' : 'location',
+            '3' : 'usr_time',
+            '4' : 'gender',
+            '5' : 'timezone'
+            }
+        print ('addUsr column id: ')
+        print (n)
         
+        try:
+            customer_id = self.byPhone(pn)[0][0]
+            print('customer_id: ')
+            print(customer_id)
+            if n != None:
+                self.execute("UPDATE `information` SET %s = '%s' WHERE customer_id = %s" % (column[str(n)], info, customer_id))
+        except Exception as e:
+            print (e)
+            self.execute("INSERT INTO `information` (phone) VALUES ('%s')" % (pn))
+        self.commit()
+            
+            
+    
 def listed(x):
     with open ('numbers.json', 'r') as f:
         nums = json.load(f)
