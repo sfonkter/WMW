@@ -153,7 +153,7 @@ def goodbye_twiml():
     
     db = MySQL.Database('users')
     usr = db.usr(num, 'byPhone')
-    resp.message("Thank you for signing up for Weather My Wardrobe! To set a time to receive messages reply with 'Time' followed by a time of day. Default is 6:30am.")
+    resp.message("Thank you for signing up for weather updates with Weather My Wardrobe!\nWeather updates automatically go out at 6:30 am every day. If you would like to change the time reply 'time' followed by the time of day you would like to set.")
     if 'question_id' in session:
         del session['question_id']
     return str(resp)
@@ -177,7 +177,7 @@ def redirect_to_first_question(resp, survey):
     resp.redirect(url=first_question_url, method='GET')
     
 def welcome_user(send_function):
-    welcome_text = 'Thank you for signing up for weather updates with Weather My Wardrobe!\nWeather updates automatically go out at 6:30 am every day. If you would like to change the time reply "time" followed by the time of day you would like to set.'
+    welcome_text = 'Thank you for signing up for weather updates with with Weather My Wardrobe! To finish signing up just answer the following questions:'
     send_function(welcome_text)
 
 if __name__ == "__main__":
