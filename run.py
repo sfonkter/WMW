@@ -134,6 +134,7 @@ def answer(question_id):
     
     with open('questions.json', 'r') as f:
         survey = json.load(f)
+    
     db.addUsr(num, question_id, body)
     try:
         next_question = survey[question_id+1]
@@ -150,7 +151,7 @@ def goodbye_twiml():
     
     db = MySQL.Database('users')
     usr = db.usr(num, 'byPhone')
-    resp.message("Thank you for signing up for Weather My Wardrobe! You'll get weather updates at %s every day!" % (usr.usr_time))
+    resp.message("Thank you for signing up for Weather My Wardrobe! To set a time to receive messages reply with 'Time' followed by a time of day. Default is 6:30am.")
     if 'question_id' in session:
         del session['question_id']
     return str(resp)
