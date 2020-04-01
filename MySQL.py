@@ -1,6 +1,7 @@
 import mysql.connector
 import json
 import os
+import darkskyreq
 
 class Database:
     def __init__(self, name):
@@ -65,7 +66,35 @@ class Database:
         self.gender = row[6]
         self.timezone = row[7]
         return self
+    
+    def addUsr(self, pn = '', n = None, info = ''):
+        column = {
+            '0' : 'first_name',
+            '1' : 'last_name',
+            '2' : 'gender',
+            '3' : 'location',
+            }
         
+        try:
+            customer_id = self.byPhone(pn)[0][0]
+            if n == 3:
+                w = darkskyreq.Weather(info)
+                try:
+                    address = w.getAddress()
+                    tz = w.getWeather().timezone
+                    db.execute("UPDATE information SET location = '%s' WHERE customer_id = %s" % (info, customer_id))
+                    db.execute("UPDATE information SET timezone = '%s' WHERE customer_id = %s" % (tz, customer_id))
+                except Exception as e:
+                    print (e)
+                    pass
+            elif n != None:
+                self.execute("UPDATE `information` SET %s = '%s' WHERE customer_id = %s" % (column[str(n)], info, customer_id))
+        except Exception as e:
+            print (e)
+            self.execute("INSERT INTO `information` (phone) VALUES ('%s')" % (pn))
+        
+        self.commit()
+    
 def listed(x):
     with open ('numbers.json', 'r') as f:
         nums = json.load(f)
