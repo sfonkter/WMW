@@ -15,7 +15,7 @@ def sendWeather(customer_id):
     message = msg.msg(location, fname)
     
     if MySQL.listed(number) == 1:
-        welcome = "Thank you for signing up for daily weather updates!\nReply \"actions\" for a list of commands, including how to change your location and set what time (coming soon) you'd like to receive messages each day. Default is 6:30am.\nThis is a class project and feedback is welcome at any time. Just reply to the number with whatever you have to say!\nIf you would like to stop receiving messages just reply stop at any time."
+        welcome = "Thank you for signing up for daily weather updates!\nReply \"actions\" for a list of commands, including how to change your location and set what time you'd like to receive messages each day. Default is 6:30am.\nThis is a class project and feedback is welcome at any time. Just reply to the number with whatever you have to say!\nIf you would like to stop receiving messages just reply stop at any time."
         send(number, welcome)
         print (welcome)
     #send the message:

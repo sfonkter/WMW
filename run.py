@@ -177,7 +177,7 @@ def redirect_to_first_question(resp, survey):
     resp.redirect(url=first_question_url, method='GET')
     
 def welcome_user(send_function):
-    welcome_text = 'Thank you for signing up for weather updates with Weather My Wardrobe! To finish signing up just answer the following questions.'
+    welcome_text = 'Thank you for signing up for weather updates with Weather My Wardrobe!\nWeather updates automatically go out at 6:30 am every day. If you would like to change the time reply "time" followed by the time of day you would like to set.'
     send_function(welcome_text)
 
 if __name__ == "__main__":
