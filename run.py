@@ -28,7 +28,6 @@ def incoming_sms():
     
     db = MySQL.Database('users')
     db.execute("SELECT * FROM information")
-    usr = db.usr(num, 'byPhone')
     
     #Responds with a list of actions users can take
     if command == "actions" or command == "action":
@@ -37,6 +36,7 @@ def incoming_sms():
     #Changes user's location
     elif command == "location":
         location = body.lower().replace('location', '')
+        usr = db.usr(num, 'byPhone')
         usr.location = location
         w = darkskyreq.Weather(usr.location)
         try:
@@ -51,6 +51,7 @@ def incoming_sms():
     
     #Sends current conditions to user
     elif command == "weather":
+        usr = db.usr(num, 'byPhone')
         deliver.sendWeather(usr.customer_id)
 
     #Sign up a new user via sms signup
@@ -68,7 +69,7 @@ def incoming_sms():
     #Changes the time the user receives the message
     elif command == "time":
         time = str(body.lower().replace('time', '').replace(' ', ''))
-
+        usr = db.usr(num, 'byPhone')
         if 'a' in time or 'p' in time:
             if 'm' not in time:
                 time += 'm'
@@ -95,6 +96,7 @@ def incoming_sms():
     # if none of the above are true (there is no command), assumes the message is feedback and saves it to logs/Feedback.json.
     #Also sends a message to me with the feedback, phone number, and first and last name.
     else:
+        usr = db.usr(num, 'byPhone')
         msg = "New feedback from %s %s %s: %s" % (usr.first_name, usr.last_name, usr.phone, body)
         deliver.send('8049288208', msg)
 
