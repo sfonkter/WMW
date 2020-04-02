@@ -14,7 +14,6 @@ def sched():
         try:
             usr = db.usr(x)
         except:
-            print('Null id')
             continue
         try:
             t = usr.usr_time
