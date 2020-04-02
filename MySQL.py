@@ -99,6 +99,7 @@ def listed(x):
     with open ('numbers.json', 'r') as f:
         nums = json.load(f)
     if x not in nums:
-        with open ('numbers.json', 'a') as f:
+        nums.append(x)
+        with open ('numbers.json', 'w') as f:
             json.dump(nums, f, ensure_ascii=False, indent = 4)
         return 1
