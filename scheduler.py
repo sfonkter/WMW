@@ -11,7 +11,11 @@ def sched():
     db = MySQL.Database('users')
     db.execute("SELECT * FROM information")
     for x in range(1, len(db.fetchall())):
-        usr = db.usr(x)
+        try:
+            usr = db.usr(x)
+        except:
+            print('Null id')
+            continue
         try:
             t = usr.usr_time
             if t == None:
@@ -28,7 +32,6 @@ def sched():
             with open('logs/errors.json', 'a', encoding = 'utf-8') as f:
                 json.dump(err, f, ensure_ascii = False, indent=4)
                 f.write('\n')
-
 
 schedule.every().minute.at(":00").do(sched)
 
