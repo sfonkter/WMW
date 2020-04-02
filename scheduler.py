@@ -11,10 +11,10 @@ def sched():
     db = MySQL.Database('users')
     db.execute("SELECT * FROM information")
     for x in range(1, len(db.fetchall())+1):
-        try:
-            usr = db.usr(x)
-        except:
+        if db.usr(x) == False:
             continue
+        else:
+            usr = db.usr(x)
         try:
             t = usr.usr_time
             if t == None:
@@ -33,7 +33,6 @@ def sched():
                 f.write('\n')
 
 schedule.every().minute.at(":00").do(sched)
-
 while True:
     schedule.run_pending()
     time.sleep(1)

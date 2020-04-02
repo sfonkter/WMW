@@ -65,6 +65,8 @@ class Database:
         self.usr_time = row[5]
         self.gender = row[6]
         self.timezone = row[7]
+        if self.first_name == '':
+            return False
         return self
     
     def addUsr(self, pn = '', n = None, info = ''):
