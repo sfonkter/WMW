@@ -6,3 +6,4 @@ mysql-connector-python~=8.0.19
 schedule~=0.6.0
 requests~=2.21.0
 darksky-weather
+waitress
