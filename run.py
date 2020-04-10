@@ -40,8 +40,8 @@ def incoming_sms():
         usr.location = location
         w = darkskyreq.Weather(usr.location)
         try:
-            address = w.getAddress()
-            tz = w.getWeather().timezone
+            address = w.getaddress()
+            tz = w.getweather().timezone
             resp.message("Your new location has been set: "+address)
             db.execute("UPDATE information SET location = '%s' WHERE customer_id = %s" % (location, usr.customer_id))
             db.execute("UPDATE information SET timezone = '%s' WHERE customer_id = %s" % (tz, usr.customer_id))

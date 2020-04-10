@@ -82,8 +82,8 @@ class Database:
             if n == 3:
                 w = darkskyreq.Weather(info)
                 try:
-                    address = w.getAddress()
-                    tz = w.getWeather().timezone
+                    address = w.getaddress()
+                    tz = w.getweather().timezone
                     self.execute("UPDATE information SET location = '%s' WHERE customer_id = %s" % (info, customer_id))
                     self.execute("UPDATE information SET timezone = '%s' WHERE customer_id = %s" % (tz, customer_id))
                 except Exception as e:

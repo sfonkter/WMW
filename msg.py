@@ -6,8 +6,8 @@ import pytz
 def msg(location, name):
     w = darkskyreq.Weather(location)
     try:
-        req = w.getWeather()
-        address = w.getAddress()
+        req = w.getweather()
+        address = w.getaddress()
     except:
         return "Location not found. Please enter a valid location."
     
