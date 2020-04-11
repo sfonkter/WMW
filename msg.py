@@ -40,8 +40,8 @@ def msg(customer_id):
         hiscale = 10
     tempScale = int(hiscale / 10)
 
-    cond = (greeting + usr.first_name + "! Current conditions in " + address + ": Feels like %s\u00b0F and %s. %s" % (
-    feelsLike, CurrentSum.lower(), HourlySum))
+    cond = (greeting + usr.first_name + "! Current conditions in " + address + ": Feels like %s\u00b0F and %s.%s" % (
+        feelsLike, CurrentSum.lower(), HourlySum))
     temps = (" The high for today is %s and the low %s." % (hi, lo))
     bot = clothes.wear[tempScale]["bottom"]
     top = clothes.wear[tempScale]["top"]
@@ -51,15 +51,15 @@ def msg(customer_id):
     FinalMsg = cond + temps
     FinalMsg += (" Wear %s and a %s" % (bot, top))
 
-    if jak != None:
+    if jak is not None:
         FinalMsg += (", also bring a " + jak)
-        if hed != None:
+        if hed is not None:
             FinalMsg += (" and a " + hed + ".")
         else:
-            FinalMsg += (".")
+            FinalMsg += "."
     else:
-        FinalMsg += (".")
+        FinalMsg += "."
     if icon == 'rain' or icon == 'snow' or icon == 'sleet':
-        FinalMsg += (" And don't forget an umbrella or rain jacket!")
+        FinalMsg += " And don't forget an umbrella or rain jacket!"
 
     return FinalMsg, req.daily.icon
