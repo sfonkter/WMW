@@ -7,7 +7,7 @@ def img(customer_id):
     message, icon = msg.msg(customer_id)
     icon = 'clear-day'
 
-    #font = ImageFont.truetype('CALIBRI.TTF', 60)
+    font = ImageFont.truetype('~/.local/share/fonts/CALIBRI.TTF', 60)
 
     image = Image.open('Weather-Photos/templates/{}.jpg'.format(icon))
 
