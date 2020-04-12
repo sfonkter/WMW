@@ -9,7 +9,7 @@ def img(customer_id):
     font_folder = os.environ['FONT_FOLDER']
     icon = 'clear-day'
 
-    font = ImageFont.truetype(r'{}'.format(font_folder), 60)
+    font = ImageFont.truetype(r'{}'.format(font_folder), 50)
 
     image = Image.open('Weather-Photos/templates/{}.jpg'.format(icon))
 
