@@ -11,6 +11,7 @@ def sendWeather(customer_id):
     number = usr.phone
 
     media = MMSimage.img(customer_id)
+    message = None
 
     if MySQL.listed(number) == 1:
         welcome = "Thank you for signing up for daily weather updates!\nReply \"actions\" for a list of commands, " \
