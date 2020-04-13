@@ -3,4 +3,4 @@ logs/
 numbers.json
 .idea/
 start.sh
-/Weather-Photos/updates/
+/Weather-Photos/updates/*.jpg
