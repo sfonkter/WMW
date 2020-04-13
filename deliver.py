@@ -26,7 +26,7 @@ def sendWeather(customer_id):
     print(number)
     print(message)
 
-
+#todo don't add "media" to this if it's not sending an image. it still sends MMS which costs more
 def send(num, m=None, media=None):
     account_sid = os.environ['TWILIO_ACCOUNT_SID']
     auth_token = os.environ['TWILIO_AUTH_TOKEN']

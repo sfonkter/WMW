@@ -3,8 +3,7 @@ phonenumbers>=8.12.1
 Flask>=1.1.2
 twilio>=6.38.0
 mysql-connector-python>=8.0.19
+Pillow>=7.1.1
 schedule>=0.6.0
 requests>=2.23.0
-Pillow>=7.1.1
-waitress>=1.4.3
-darksky-weather
+darksky_weather
