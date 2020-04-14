@@ -4,4 +4,4 @@ twilio phone-numbers:update "+18647546178" --sms-url="http://192.241.149.241:500
 python run.py &
 python scheduler.py &
 cd ~/WMW/Weather-Photos
-python -m http.server 8000
+python -m http.server 8000 &
