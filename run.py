@@ -87,7 +87,7 @@ def incoming_sms():
                 try:
                     t = datetime.strptime(time, "%I:%M%p")
                     db.execute("UPDATE information SET usr_time = '%s' WHERE customer_id = %s" % (
-                    t.strftime("%H:%M"), usr.customer_id))
+                        t.strftime("%H:%M"), usr.customer_id))
                     resp.message(t.strftime("New time set for %I:%M%p"))
                 except Exception as e:
                     print(e)
@@ -98,7 +98,7 @@ def incoming_sms():
                 try:
                     t = datetime.strptime(time, "%I%p")
                     db.execute("UPDATE information SET usr_time = '%s' WHERE customer_id = %s" % (
-                    t.strftime("%H:%M"), usr.customer_id))
+                        t.strftime("%H:%M"), usr.customer_id))
                     resp.message(t.strftime("New time set for %I:%M%p"))
                 except Exception as e:
                     print(e)
@@ -156,7 +156,8 @@ def answer(question_id):
     with open('questions.json', 'r') as f:
         survey = json.load(f)
 
-    db.addUsr(num, question_id, body)
+    if not db.addUsr(num, question_id, body):
+        return sms_twiml("I wasn't able to find that location. Try double checking your spelling.")
     try:
         next_question = survey[question_id + 1]
         return redirect_twiml(next_question)
