@@ -89,7 +89,7 @@ class Database:
                     self.execute("UPDATE information SET timezone = '%s' WHERE customer_id = %s" % (tz, customer_id))
                 except Exception as e:
                     print(e)
-                    return False
+                    return True
             elif n is not None:
                 self.execute(
                     "UPDATE `information` SET %s = '%s' WHERE customer_id = %s" % (column[str(n)], info, customer_id))

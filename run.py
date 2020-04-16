@@ -156,7 +156,7 @@ def answer(question_id):
     with open('questions.json', 'r') as f:
         survey = json.load(f)
 
-    if not db.addUsr(num, question_id, body):
+    if db.addUsr(num, question_id, body):
         return sms_twiml("I wasn't able to find that location. Try double checking your spelling.")
     try:
         next_question = survey[question_id + 1]
