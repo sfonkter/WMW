@@ -177,8 +177,8 @@ def goodbye_twiml():
     resp.message(
         "Hey there, %s! Thank you for signing up for weather updates with Weather My Wardrobe!\n\n"
         "You'll receive your personalized weather update at 6:30 am every day!\n"
-        "If you would like to change this, reply 'actions' for instructions, along with some other things you can "
-        "change!" % usr.first_name)
+        "If you would like to change this, or your location, reply 'actions' to learn how, along with some other "
+        "useful information!" % usr.first_name)
     deliver.sendWeather(usr.customer_id, 'mms')
     if 'question_id' in session:
         del session['question_id']
