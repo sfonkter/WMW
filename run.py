@@ -161,8 +161,7 @@ def answer(question_id):
     try:
         next_question = survey[question_id + 1]
         return redirect_twiml(next_question)
-    except Exception as e:
-        print(e)
+    except:
         return goodbye_twiml()
 
 
