@@ -77,7 +77,7 @@ class Database:
             '2': 'gender',
             '3': 'location',
         }
-
+        info.strip()
         try:
             customer_id = self.byPhone(pn)[0][0]
             if n == 3:
