@@ -9,7 +9,7 @@ def sendWeather(customer_id, send_type=None):
     db = MySQL.Database('users')
     usr = db.usr(customer_id)
     number = usr.phone
-
+    '''
     if MySQL.listed(number) == 1:
         welcome = "Thank you for signing up for daily weather updates!\nReply \"actions\" for a list of commands, " \
                   "including how to change your location and set what time you'd like to receive messages each day. " \
@@ -18,12 +18,12 @@ def sendWeather(customer_id, send_type=None):
                   "stop at any time. "
         send(number, welcome)
         print(welcome)
-
+    '''
+    # send the message:
     if send_type == 'mms':
         send_mms(number, MMSimage.img(customer_id))
     else:
         send(number, msg.msg(customer_id))
-    # send the message:
     print(number)
 
 

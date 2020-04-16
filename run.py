@@ -33,11 +33,12 @@ def incoming_sms():
     # Responds with a list of actions users can take
     if command == "actions" or command == "action":
         resp.message(
-            "Time: Reply 'time' followed by the time you'd like to receive your daily update. 'Time 8am' to get your "
+            "List of commands:\n"
+            "TIME: Reply 'time' followed by the time you'd like to receive your daily update. 'Time 8am' to get your "
             "update at 8:00am.\n"
-            "Location: To change your location respond to the number with 'location' followed by your new location. "
+            "LOCATION: To change your location respond to the number with 'location' followed by your new location. "
             "'Location Richmond, VA' (you may also use your zip code, address, or a nearby landmark).\n"
-            "Weather: To get a current weather update reply to the number with 'weather'.\n"
+            "WEATHER: To get a current weather update reply to the number with 'weather'.\n"
             "You can respond to the number with feedback or to get in touch with Delaney Kassab at any time. Just "
             "reply with whatever you have to say!\n"
             "To stop receiving messages at any time just reply 'STOP'.")
@@ -173,9 +174,11 @@ def goodbye_twiml():
     db = MySQL.Database('users')
     usr = db.usr(num, 'byPhone')
     resp.message(
-        "Thank you for signing up for weather updates with Weather My Wardrobe!\n"
-        "Weather updates automatically go out at 6:30 am every day. If you would like to change this, reply 'actions' "
-        "for instructions, along with some other things you can change!.")
+        "Hey there, %s! Thank you for signing up for weather updates with Weather My Wardrobe!\n\n"
+        "You'll receive your personalized weather update at 6:30 am every day!\n"
+        "If you would like to change this, reply 'actions' for instructions, along with some other things you can "
+        "change!" % usr.first_name)
+    deliver.sendWeather(usr.customer_id, 'mms')
     if 'question_id' in session:
         del session['question_id']
     return str(resp)
