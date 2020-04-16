@@ -33,12 +33,14 @@ def incoming_sms():
     # Responds with a list of actions users can take
     if command == "actions" or command == "action":
         resp.message(
-            "List of commands:\n\nTime: To set the time of day you would like your weather update respond to the "
-            "number with \"time\" followed by the time you'd like the message. Include am or pm.\n\nLocation: To "
-            "change your location respond to the number with \"location\" followed by your new location.\n\nWeather: "
-            "To get a current weather update reply to the number with \"weather\".\n\nYou can respond to the number "
-            "with feedback or to get in touch with Delaney Kassab at any time.\n\nTo stop receiving messages at any "
-            "time just reply STOP.")
+            "Time: Reply 'time' followed by the time you'd like to receive your daily update. 'Time 8am' to get your "
+            "update at 8:00am.\n"
+            "Location: To change your location respond to the number with 'location' followed by your new location. "
+            "'Location Richmond, VA' (you may also use your zip code, address, or a nearby landmark).\n"
+            "Weather: To get a current weather update reply to the number with 'weather'.\n"
+            "You can respond to the number with feedback or to get in touch with Delaney Kassab at any time. Just "
+            "reply with whatever you have to say!\n"
+            "To stop receiving messages at any time just reply 'STOP'.")
 
     # Changes user's location
     elif command == "location":
@@ -171,9 +173,9 @@ def goodbye_twiml():
     db = MySQL.Database('users')
     usr = db.usr(num, 'byPhone')
     resp.message(
-        "Thank you for signing up for weather updates with Weather My Wardrobe!\nWeather updates automatically go out "
-        "at 6:30 am every day. If you would like to change the time reply 'time' followed by the time of day you "
-        "would like to set.")
+        "Thank you for signing up for weather updates with Weather My Wardrobe!\n"
+        "Weather updates automatically go out at 6:30 am every day. If you would like to change this, reply 'actions' "
+        "for instructions, along with some other things you can change!.")
     if 'question_id' in session:
         del session['question_id']
     return str(resp)
@@ -202,7 +204,7 @@ def redirect_to_first_question(resp, survey):
 
 def welcome_user(send_function):
     welcome_text = 'Thank you for signing up for weather updates with with Weather My Wardrobe! To finish signing up ' \
-                   'just answer the following questions: '
+                   'just answer the following questions:'
     send_function(welcome_text)
 
 
