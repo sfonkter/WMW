@@ -2,3 +2,4 @@ __pycache__
 logs/
 numbers.json
 .idea/
+/Weather-Photos/*.jpg
