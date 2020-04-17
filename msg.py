@@ -62,4 +62,4 @@ def msg(customer_id):
     if icon == 'rain' or icon == 'snow' or icon == 'sleet':
         FinalMsg += " And don't forget an umbrella or rain jacket!"
 
-    return FinalMsg, req.daily.icon
+    return FinalMsg, req.daily.data[0].icon
