@@ -30,7 +30,7 @@ def sched():
             err = nowt(pytz.timezone('America/New_York')).strftime("%b %d at %I:%M%p: User: {} {} {}: ").format(
                 usr.phone, usr.first_name, usr.last_name) + str(e)
             print(err)
-            with open('logs/errors.json', 'a', encoding='utf-8') as f:
+            with open('logs/errorsLog.json', 'a', encoding='utf-8') as f:
                 json.dump(err, f, ensure_ascii=False, indent=4)
                 f.write('\n')
 

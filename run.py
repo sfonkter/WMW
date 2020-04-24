@@ -110,7 +110,7 @@ def incoming_sms():
         db.commit()
 
     # if none of the above are true (there is no command), assumes the message is feedback and saves it to
-    # logs/Feedback.json. Also sends a message to me with the feedback, phone number, and first and last name.
+    # logs/FeedbackLog.json. Also sends a message to me with the feedback, phone number, and first and last name.
     else:
         usr = db.usr(num, 'byPhone')
         msg = "New feedback from %s %s %s: %s" % (usr.first_name, usr.last_name, usr.phone, body)
@@ -118,7 +118,7 @@ def incoming_sms():
 
         resp.message("Your feedback has been recorded. Thank you!")
 
-        with open('logs/Feedback.json', 'a', encoding='utf-8') as f:
+        with open('logs/FeedbackLog.json', 'a', encoding='utf-8') as f:
             json.dump(msg, f, ensure_ascii=False, indent=4)
             f.write("\n")
 
