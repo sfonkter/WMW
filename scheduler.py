@@ -18,7 +18,7 @@ def sched():
             usr = db.usr(x)
         try:
             t = usr.usr_time
-            if t == None:
+            if t is None:
                 t = '06:30'
             tz = pytz.timezone(usr.timezone)
             localt = str(nowt(tz).strftime("%H:%M"))

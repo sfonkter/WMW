@@ -23,3 +23,4 @@ def img(customer_id):
     image.save('Weather-Photos/user{}.jpg'.format(customer_id))
 
     return 'http://weathermywardrobe.com:8000/user{}.jpg'.format(customer_id)
+

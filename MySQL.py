@@ -7,9 +7,7 @@ import darkskyreq
 class Database:
     def __init__(self, name):
         SQL_pass = os.environ['MYSQL_PASS']
-        self._conn = mysql.connector.connect(user='doadmin', password=SQL_pass,
-                                             host='wmwuserinfo-do-user-7206460-0.a.db.ondigitalocean.com',
-                                             port=25060,
+        self._conn = mysql.connector.connect(user='wordpressuser', password=SQL_pass,
                                              db=name
                                              )
         self._cursor = self._conn.cursor(buffered=True)
