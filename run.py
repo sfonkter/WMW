@@ -72,7 +72,7 @@ def incoming_sms():
             resp.redirect(url_for('answer',
                                   question_id=session['question_id']))
         else:
-            db.addUsr(num)
+            db.execute("INSERT INTO `information` (phone) VALUES ('%s')" % num)
             welcome_user(resp.message)
             redirect_to_first_question(resp, survey)
 
