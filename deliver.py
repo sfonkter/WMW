@@ -9,16 +9,7 @@ def sendWeather(customer_id, send_type=None):
     db = MySQL.Database('users')
     usr = db.usr(customer_id)
     number = usr.phone
-    '''
-    if MySQL.listed(number) == 1:
-        welcome = "Thank you for signing up for daily weather updates!\nReply \"actions\" for a list of commands, " \
-                  "including how to change your location and set what time you'd like to receive messages each day. " \
-                  "Default is 6:30am.\nThis is a class project and feedback is welcome at any time. Just reply to the " \
-                  "number with whatever you have to say!\nIf you would like to stop receiving messages just reply " \
-                  "stop at any time. "
-        send(number, welcome)
-        print(welcome)
-    '''
+
     # send the message:
     if send_type == 'mms':
         send_mms(number, MMSimage.img(customer_id))
@@ -33,11 +24,11 @@ def send(num, m=None):
     client = Client(account_sid, auth_token)
 
     message = client.messages \
-        .create(
-        body=m,
-        from_='+18647546178',
-        to="+1" + num
-    )
+        .create(body=m,
+                from_='+18647546178',
+                to="+1" + num
+                )
+    print(message.sid)
 
 
 def send_mms(num, media):
@@ -46,10 +37,9 @@ def send_mms(num, media):
     client = Client(account_sid, auth_token)
 
     message = client.messages \
-        .create(
-        from_='+18647546178',
-        media_url=media,
-        to="+1" + num
-    )
+        .create(from_='+18647546178',
+                media_url=media,
+                to="+1" + num
+                )
 
     print(message.sid)

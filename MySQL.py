@@ -3,6 +3,7 @@ import json
 import os
 import darkskyreq
 
+# todo Change unique identifier to phone number instead of customer_id
 
 class Database:
     def __init__(self, name):
@@ -53,10 +54,10 @@ class Database:
         sql = "SELECT * FROM information WHERE phone = '{}'"
         return self.query(sql.format(phone))
 
-    def usr(self, key, by=None):
-        if by == None:
+    def usr(self, key, phone=None):
+        if phone is None:
             row = self.byID(key)[0]
-        elif by == 'byPhone':
+        elif phone == 'byPhone':
             row = self.byPhone(key)[0]
         self.customer_id = row[0]
         self.first_name = row[1]
@@ -66,8 +67,8 @@ class Database:
         self.usr_time = row[5]
         self.gender = row[6]
         self.timezone = row[7]
-        if self.first_name == '':
-            return False
+        #if self.first_name == '':
+            #return False
         return self
 
     def addUsr(self, pn='', n=None, info=''):
@@ -77,34 +78,23 @@ class Database:
             '2': 'gender',
             '3': 'location',
         }
-        info.strip()
-        try:
-            customer_id = self.byPhone(pn)[0][0]
-            if n == 3:
-                w = darkskyreq.Weather(info)
-                try:
-                    address = w.getaddress()
-                    tz = w.getweather().timezone
-                    self.execute("UPDATE information SET location = '%s' WHERE customer_id = %s" % (info, customer_id))
-                    self.execute("UPDATE information SET timezone = '%s' WHERE customer_id = %s" % (tz, customer_id))
-                except Exception as e:
-                    print(e)
-                    return True
-            elif n is not None:
-                self.execute(
-                    "UPDATE `information` SET %s = '%s' WHERE customer_id = %s" % (column[str(n)], info, customer_id))
-        except Exception as e:
-            print(e)
-            self.execute("INSERT INTO `information` (phone) VALUES ('%s')" % (pn))
+        info = info.strip()
+
+        customer_id = self.byPhone(pn)[0][0]
+        if customer_id is None:
+            self.execute("INSERT INTO `information` (phone) VALUES ('%s')" % pn)
+
+        elif n == 3:
+            w = darkskyreq.Weather(info)
+            if w.getcoords() is None:
+                return True
+
+            tz = w.getweather().timezone
+            self.execute("UPDATE information SET location = '%s' WHERE customer_id = %s" % (info, customer_id))
+            self.execute("UPDATE information SET timezone = '%s' WHERE customer_id = %s" % (tz, customer_id))
+
+        elif n is not None:
+            self.execute(
+                "UPDATE `information` SET %s = '%s' WHERE customer_id = %s" % (column[str(n)], info, customer_id))
 
         self.commit()
-
-
-def listed(x):
-    with open('numbers.json', 'r') as f:
-        nums = json.load(f)
-    if x not in nums:
-        nums.append(x)
-        with open('numbers.json', 'w') as f:
-            json.dump(nums, f, ensure_ascii=False, indent=4)
-        return 1

@@ -1,38 +1,31 @@
 import deliver
 import schedule
 import time
-from datetime import datetime, timezone
+from datetime import datetime
 import pytz
-import json
 import MySQL
 
 
 def sched():
     nowt = datetime.now
     db = MySQL.Database('users')
-    db.execute("SELECT * FROM information")
-    for x in range(1, len(db.fetchall()) + 1):
-        if not db.usr(x):
+    db.execute("SELECT customer_id FROM information")
+    rows = db.fetchall()
+    for x in range(0, len(rows)):
+        customer_id = rows[x][0]
+        usr = db.usr(customer_id)
+
+        if usr.location is None:
             continue
-        else:
-            usr = db.usr(x)
-        try:
-            t = usr.usr_time
-            if t is None:
-                t = '06:30'
-            tz = pytz.timezone(usr.timezone)
-            localt = str(nowt(tz).strftime("%H:%M"))
 
-            if t == localt:
-                deliver.sendWeather(usr.customer_id, 'mms')
+        t = usr.usr_time
+        if t is None:
+            t = '06:30'
+        tz = pytz.timezone(usr.timezone)
+        localusrt = str(nowt(tz).strftime("%H:%M"))
 
-        except Exception as e:
-            err = nowt(pytz.timezone('America/New_York')).strftime("%b %d at %I:%M%p: User: {} {} {}: ").format(
-                usr.phone, usr.first_name, usr.last_name) + str(e)
-            print(err)
-            with open('logs/errorsLog.json', 'a', encoding='utf-8') as f:
-                json.dump(err, f, ensure_ascii=False, indent=4)
-                f.write('\n')
+        if t == localusrt:
+            deliver.sendWeather(usr.customer_id, 'mms')
 
 
 schedule.every().minute.at(":00").do(sched)
