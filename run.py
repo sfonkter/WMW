@@ -66,12 +66,15 @@ def incoming_sms():
 
     # Sign up a new user via sms signup
     elif command == 'weathermywardrobe' or 'question_id' in session:
+
         with open('questions.json', 'r') as f:
             survey = json.load(f)
         if 'question_id' in session:
             resp.redirect(url_for('answer',
                                   question_id=session['question_id']))
         else:
+            if 'question_id' in session:
+                del session['question_id']
             db.execute("INSERT INTO `information` (phone) VALUES ('%s')" % num)
             db.commit()
             welcome_user(resp.message)
