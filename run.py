@@ -73,8 +73,6 @@ def incoming_sms():
             resp.redirect(url_for('answer',
                                   question_id=session['question_id']))
         else:
-            if 'question_id' in session:
-                del session['question_id']
             db.execute("INSERT INTO `information` (phone) VALUES ('%s')" % num)
             db.commit()
             welcome_user(resp.message)
