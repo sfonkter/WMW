@@ -1,27 +1,21 @@
 import mysql.connector
-import json
 import os
 import darkskyreq
+
 
 # todo Change unique identifier to phone number instead of customer_id
 
 class Database:
     def __init__(self, name):
         SQL_pass = os.environ['MYSQL_PASS']
-        '''
+
         self._conn = mysql.connector.connect(host='localhost',
                                              database='users',
                                              user='wordpressuser',
                                              password=SQL_pass,
                                              )
         self._cursor = self._conn.cursor(buffered=True)
-        '''
-        self._conn = mysql.connector.connect(host='weathermywardrobe.com',
-                                             database='users',
-                                             user='remotewpuser',
-                                             password=SQL_pass,
-                                             )
-        self._cursor = self._conn.cursor(buffered=True)
+
     def __enter__(self):
         return self
 
