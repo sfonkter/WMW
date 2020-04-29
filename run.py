@@ -213,11 +213,3 @@ def welcome_user(send_function):
     welcome_text = 'Thank you for signing up for weather updates with with Weather My Wardrobe! To finish signing up ' \
                    'just answer the following questions:'
     send_function(welcome_text)
-
-
-'''
-if __name__ == "__main__":
-    from waitress import serve
-    serve(app, host="0.0.0.0", port=5000)
-    app.run(debug=True)
-'''
