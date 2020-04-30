@@ -17,12 +17,12 @@ def sendWeather(customer_id, send_type=None):
         send(number, msg.msg(customer_id))
     print(number)
 
-# todo remove comments
+
 def send(num, m=None):
     account_sid = os.environ['TWILIO_ACCOUNT_SID']
     auth_token = os.environ['TWILIO_AUTH_TOKEN']
     client = Client(account_sid, auth_token)
-    '''
+
     message = client.messages \
         .create(body=m,
                 from_='+18647546178',
@@ -30,13 +30,13 @@ def send(num, m=None):
                 )
 
     print(message.sid)
-    '''
+
 
 def send_mms(num, media):
     account_sid = os.environ['TWILIO_ACCOUNT_SID']
     auth_token = os.environ['TWILIO_AUTH_TOKEN']
     client = Client(account_sid, auth_token)
-    '''
+
     message = client.messages \
         .create(from_='+18647546178',
                 media_url=media,
@@ -44,4 +44,3 @@ def send_mms(num, media):
                 )
 
     print(message.sid)
-'''
