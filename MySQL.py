@@ -95,3 +95,8 @@ class Database:
                 "UPDATE `information` SET %s = '%s' WHERE customer_id = %s" % (column[str(n)], info, customer_id))
 
         self.commit()
+
+    def addnum(self, num):
+        if self.query('SELECT phone FROM users.information WHERE phone = "{}"'.format(num)) is None:
+            self.execute("INSERT INTO `information` (phone) VALUES ('%s')" % num)
+            self.commit()

@@ -14,14 +14,22 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 
+@app.route("/sign-up", methods=['post'])
+def signup():
+    resp = MessagingResponse()
+
+
 @app.route("/sms", methods=['GET', 'POST'])
 def incoming_sms():
     resp = MessagingResponse()
 
     nowt = datetime.now
 
+    print(request.values.get)
+
     body = str(request.values.get('Body', None))
     num = request.values.get('From', None)
+    num = '+'+num
     num = phonenumbers.parse(num, None)
     num = phonenumbers.format_number(num, phonenumbers.PhoneNumberFormat.NATIONAL)
 
@@ -73,8 +81,7 @@ def incoming_sms():
             resp.redirect(url_for('answer',
                                   question_id=session['question_id']))
         else:
-            db.execute("INSERT INTO `information` (phone) VALUES ('%s')" % num)
-            db.commit()
+            db.addnum(num)
             welcome_user(resp.message)
             redirect_to_first_question(resp, survey)
 
