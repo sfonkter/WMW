@@ -14,11 +14,6 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 
-@app.route("/sign-up", methods=['post'])
-def signup():
-    resp = MessagingResponse()
-
-
 @app.route("/sms", methods=['GET', 'POST'])
 def incoming_sms():
     resp = MessagingResponse()
