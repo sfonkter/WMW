@@ -23,8 +23,8 @@ def sched():
             t = '06:30'
         tz = pytz.timezone(usr.timezone)
         localusrt = str(nowt(tz).strftime("%H:%M"))
-
-        if t == localusrt:
+        # todo change this back to t == localusrt
+        if t == t:
             deliver.sendWeather(usr.customer_id, 'mms')
 
 

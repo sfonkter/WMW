@@ -11,10 +11,13 @@ def sendWeather(customer_id, send_type=None):
     number = usr.phone
 
     # send the message:
+    # todo remove these comments
+    '''
     if send_type == 'mms':
         send_mms(number, MMSimage.img(customer_id))
     else:
         send(number, msg.msg(customer_id))
+    '''
     print(number)
 
 
