@@ -25,7 +25,7 @@ def send(num, m=None):
 
     message = client.messages \
         .create(body=m,
-                from_='+18647546178',
+                from_= os.environ['TWILIO_NUMBER'],
                 to="+1" + num
                 )
 
@@ -38,7 +38,7 @@ def send_mms(num, media):
     client = Client(account_sid, auth_token)
 
     message = client.messages \
-        .create(from_='+18647546178',
+        .create(from_='TWILIO_NUMBER',
                 media_url=media,
                 to="+1" + num
                 )
