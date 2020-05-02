@@ -10,7 +10,7 @@ class Database:
         SQL_pass = os.environ['MYSQL_PASS']
 
         self._conn = mysql.connector.connect(host='localhost',
-                                             database='users',
+                                             database=name,
                                              user='wordpressuser',
                                              password=SQL_pass,
                                              )
