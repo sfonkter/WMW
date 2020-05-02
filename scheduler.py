@@ -4,6 +4,7 @@ import time
 from datetime import datetime
 import pytz
 import MySQL
+import json
 
 
 def sched():
@@ -25,7 +26,14 @@ def sched():
         localusrt = str(nowt(tz).strftime("%H:%M"))
 
         if t == localusrt:
-            deliver.sendWeather(usr.customer_id, 'mms')
+            try:
+                deliver.sendWeather(usr.customer_id, 'mms')
+            except Exception as e:
+                with open('logs/errorsLog.json', 'a', encoding='utf-8') as f:
+                    error = nowt(pytz.timezone('America/New_York')).strftime(
+                        "%b %d at %I:%M%p: User ID: {} Error: {}".format(usr.customer_id, e))
+                    json.dump(error, f, ensure_ascii=False, indent=4)
+                    f.write('\n')
 
 
 schedule.every().minute.at(":00").do(sched)
