@@ -20,8 +20,6 @@ def incoming_sms():
 
     nowt = datetime.now
 
-    print(request.values.get)
-
     body = str(request.values.get('Body', None))
     num = request.values.get('From', None)
     num = phonenumbers.parse(num, None)
