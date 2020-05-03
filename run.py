@@ -24,7 +24,6 @@ def incoming_sms():
 
     body = str(request.values.get('Body', None))
     num = request.values.get('From', None)
-    num = '+'+num
     num = phonenumbers.parse(num, None)
     num = phonenumbers.format_number(num, phonenumbers.PhoneNumberFormat.NATIONAL)
 
